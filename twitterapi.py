@@ -59,29 +59,24 @@ class StdOutListener(StreamListener):
             except Exception as Error:
                 print("User Name Error: " + str(Error))
 
-            # try:
-            #     rt_data = tweet['retweeted_status']
-            #     ext_text = rt_data['full_text']
-            #     print("Extended Text = " + str(ext_text))
-            # except Exception as Error :
-            #     print("Extended Text Error: " + str(Error))
-            #
-            #
-            # try:
-            #     rt_data = tweet['extended_tweet']
-            #     print("extended Tweet info is : " + rt_data)
-            #     ext_text = rt_data['full_text']
-            #     print("Extended Text = " + str(ext_text))
-            # except Exception as Error :
-            #     print("Extended Text Error: " + str(Error))
-            #
-            # try:
-            #     entities = tweet['entities']
-            #     url_data = entities['urls']
-            #     url = url_data['url']
-            #     print("URL = " + str(url))
-            # except Exception as Error :
-            #     print("URL Error: " + str(Error))
+            try:
+                rt_data = tweet['retweeted_status']
+                ext_text = rt_data['extended_tweet']
+                full_text = ext_text['full_text']
+                print("Full Text = " + str(full_text))
+            except Exception as Error :
+                print("Extended Text Error: " + str(Error))
+
+
+            try:
+                rt_data = tweet['retweeted_status']
+                entities = rt_data['entities']
+                url_data = entities['urls']
+                url_list = url_data[0]
+                url = url_list['url']
+                print("URL = " + str(url))
+            except Exception as Error :
+                print("URL Error: " + str(Error))
 
             print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
             print("")
@@ -102,7 +97,7 @@ class StdOutListener(StreamListener):
 
 if __name__ == '__main__':
     # Authenticate using config.py and connect to Twitter Streaming API.
-    tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "ermeni", "ermeniler", "ibne"]
+    tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "ermeni", "ermeniler"]
     fetched_tweets_filename = "tweets.txt"
 
     twitter_streamer = TwitterStreamer()
