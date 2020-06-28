@@ -131,8 +131,6 @@ class StdOutListener(StreamListener):
             print("Error on_data is" % str(e))
         return True
 
-        # trying something
-
     def on_error(self, status):
         print(status)
 
