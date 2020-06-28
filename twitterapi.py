@@ -15,7 +15,6 @@ class TwitterStreamer:
         pass
 
     def stream_tweets(self, fetched_tweets_file, hash_tag_list):
-
         # This handles Twitter authetification and the connection to Twitter Streaming API
 
         listener = StdOutListener(fetched_tweets_file)
@@ -25,6 +24,9 @@ class TwitterStreamer:
 
         # This line filter Twitter Streams to capture data by the keywords:
         stream.filter(track=hash_tag_list)
+
+fulltext_error_list = []
+url_error_list = []
 
 
 # # # # TWITTER STREAM LISTENER # # # #
@@ -39,13 +41,15 @@ class StdOutListener(StreamListener):
 
     def on_data(self, data):
 
-        global write_time, write_location, write_url, write_text, write_fulltext
+        global write_time, write_location, write_url, write_text, write_fulltext,\
+            full_text, time ,location , url , text, screen_name, user
 
         try:
             tweet = json.loads(data)
             print("-----     Tweet     -----")
             print(tweet)
             print()
+
             try:
                 time = tweet['created_at']
                 write_time = "Time = " + str(time)
@@ -58,7 +62,8 @@ class StdOutListener(StreamListener):
                 user = user_data['name']
                 screen_name = user_data['screen_name']
                 location = user_data['location']
-                write_location = "User = " + str(user) + "\nScreen Name = @" + str(screen_name) + " from " + str(location)
+                write_location = "User = " + str(user) + "\nScreen Name = @" + str(screen_name) + " from " + str(
+                    location)
                 print(write_location)
             except Exception as Error:
                 print("User Name Error: \n" + str(Error))
@@ -79,6 +84,7 @@ class StdOutListener(StreamListener):
                 write_fulltext = "Full Text = " + str(full_text)
                 print(write_fulltext)
             except Exception as Error:
+                fulltext_error_list.append(str(Error))
                 print("Extended Text Error: \n" + str(Error))
 
             try:
@@ -90,45 +96,57 @@ class StdOutListener(StreamListener):
                 write_url = "URL = " + str(url)
                 print(write_url)
             except Exception as Error:
+                url_error_list.append(str(Error))
                 print("URL Error: " + str(Error))
 
             print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
 
             with open(self.fetched_tweets_filename, 'a', encoding="utf-8") as tf:
-                tf.write("--------------------------------------- TWEET -----------------------------------------\n")
+                tf.write("\n--------------------------------------- TWEET -----------------------------------------\n")
                 try:
                     try:
                         tf.write(write_time + "\n")
                     except Exception as Error:
                         tf.write("Time error = \n" + str(Error) + "\n")
+                    time = ""
 
                     try:
                         tf.write(write_location + "\n")
                     except Exception as Error:
                         tf.write("Location error = \n" + str(Error) + "\n")
+                    user = ""
+                    screen_name = ""
+                    location = ""
 
                     try:
                         tf.write(write_url + "\n")
                     except Exception as Error:
                         tf.write("URL error = \n" + str(Error) + "\n")
+                    url = ""
 
                     try:
-                        tf.write(write_text + "\n")
+                        tf.write(write_text + "\n\n")
+                        write_text = ""
                     except Exception as Error:
                         tf.write("Text error = \n" + str(Error) + "\n")
+                    text = ""
 
                     try:
                         tf.write(write_fulltext + "\n")
+                        write_fulltext = ""
                     except Exception as Error:
-                        tf.write("Full Text error = \n" + str(Error) + "\n")
+                        tf.write("Full Text error = \n" + str(Error) + "\n\n")
+                    full_text = ""
 
                 except Exception as Error:
                     tf.write(str(Error))
                     tf.write("Tweet error detected. \n" + tweet + "\n")
                 tf.write("-------------------------------------END OF TWEET---------------------------------------\n\n")
+                # print("Fulltext Error is = "+ str(fulltext_error_list))
+                # print("Url Error is = " +  str(url_error_list))
             return True
         except BaseException as e:
-            print("Error on_data is" % str(e))
+            print("Error on_data is = " + str(e))
         return True
 
     def on_error(self, status):
