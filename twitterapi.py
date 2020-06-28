@@ -3,7 +3,7 @@ from tweepy import OAuthHandler
 from tweepy import Stream
 import json
 import twitter_credentials
-
+from save_on_file import save_on_file
 
 # # # # TWITTER STREAMER # # # #
 class TwitterStreamer:
@@ -96,47 +96,13 @@ class StdOutListener(StreamListener):
 
             print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
 
-            with open(self.fetched_tweets_filename, 'a', encoding="utf-8") as tf:
-                tf.write("\n--------------------------------------- TWEET -----------------------------------------\n")
-                try:
-                    try:
-                        tf.write(write_time + "\n")
-                    except Exception as Error:
-                        tf.write("Time error = \n" + str(Error) + "\n")
-                    time = ""
-
-                    try:
-                        tf.write(write_location + "\n")
-                    except Exception as Error:
-                        tf.write("Location error = \n" + str(Error) + "\n")
-                    user = ""
-                    screen_name = ""
-                    location = ""
-
-                    try:
-                        tf.write(write_url + "\n")
-                    except Exception as Error:
-                        tf.write("URL error = \n" + str(Error) + "\n")
-                    url = ""
-
-                    try:
-                        tf.write(write_text + "\n\n")
-                    except Exception as Error:
-                        tf.write("Text error = \n" + str(Error) + "\n")
-                    text = ""
-
-                    try:
-                        tf.write(write_fulltext + "\n")
-                    except Exception as Error:
-                        tf.write("Full Text error = \n" + str(Error) + "\n\n")
-                    full_text = ""
-
-                except Exception as Error:
-                    tf.write(str(Error))
-                    tf.write("Tweet error detected. \n" + tweet + "\n")
-                tf.write("-------------------------------------END OF TWEET---------------------------------------\n\n")
+            try:
+                save_on_file(self.fetched_tweets_filename, write_time, write_location, write_url, write_text, write_fulltext, tweet)
+            except Exception as Error:
+                print("Save on file Error= "+ str(Error))
 
             return True
+
         except BaseException as e:
             print("Error on_data is = " + str(e))
         return True
