@@ -28,9 +28,6 @@ class TwitterStreamer:
 
 # # # # TWITTER STREAM LISTENER # # # #
 class StdOutListener(StreamListener):
-    """
-    This is a basic listener that just prints received tweets to stdout.
-    """
 
     def __init__(self, fetched_tweets_file):
         super().__init__()
@@ -97,7 +94,8 @@ class StdOutListener(StreamListener):
             print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
 
             try:
-                save_on_file(self.fetched_tweets_filename, write_time, write_location, write_url, write_text, write_fulltext, tweet)
+                save_on_file(self.fetched_tweets_filename, write_time, write_location, write_url, write_text,
+                             write_fulltext, tweet)
             except Exception as Error:
                 print("Save on file Error= "+ str(Error))
 

@@ -1,5 +1,6 @@
 import datetime
 
+
 def save_on_file(fetched_tweets_filename, write_time, write_location, write_url, write_text, write_fulltext, tweet):
     with open(fetched_tweets_filename, 'a', encoding="utf-8") as tf:
         tf.write("\n--------------------------------------- TWEET -----------------------------------------\n")
