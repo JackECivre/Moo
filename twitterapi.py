@@ -99,6 +99,18 @@ class StdOutListener(StreamListener):
             except Exception as Error:
                 print("Save on file Error= "+ str(Error))
 
+            try:
+                full_text = ""
+                text = ""
+                url = ""
+                time = ""
+                screen_name = ""
+                location = ""
+                user = ""
+            except Exception as Error:
+                print("Data Clearing Problem = " + str(Error))
+
+
             return True
 
         except BaseException as e:
