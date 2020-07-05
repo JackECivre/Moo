@@ -78,7 +78,7 @@ class StdOutListener(StreamListener):
                 write_fulltext = "Full Text = " + str(full_text)
                 print(write_fulltext)
             except Exception as Error:
-                print("Extended Text Error: \n" + str(Error))
+                print("Extended Text Error: " + str(Error))
 
             try:
                 rt_data = tweet['retweeted_status']
@@ -123,8 +123,8 @@ class StdOutListener(StreamListener):
 if __name__ == '__main__':
 
     # Authenticate using config.py and connect to Twitter Streaming API.
-    tracking_List = ["yahudi", "yahudiler", "musevi", "museviler"]
-    fetched_tweets_filename = "tweets.txt"
+    tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra"]
+    fetched_tweets_filename = "1.txt"
 
     twitter_streamer = TwitterStreamer()
     twitter_streamer.stream_tweets(fetched_tweets_filename, tracking_List)
