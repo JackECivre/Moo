@@ -36,12 +36,11 @@ class StdOutListener(StreamListener):
     def on_data(self, data):
 
         global write_time, write_location, write_url, write_text, write_fulltext,\
-            full_text, time ,location , url , text, screen_name, user
+            full_text, time, location , url , text, screen_name, user, language
 
         try:
             tweet = json.loads(data)
             print("-----     Tweet     -----")
-            print(tweet)
             print()
 
             try:
@@ -75,7 +74,7 @@ class StdOutListener(StreamListener):
                 rt_data = tweet['retweeted_status']
                 ext_text = rt_data['extended_tweet']
                 full_text = ext_text['full_text']
-                write_fulltext = "Full Text = " + str(full_text)
+                write_fulltext = "Full Text = " + str(full_text) + "\n"
                 print(write_fulltext)
             except Exception as Error:
                 print("Extended Text Error: " + str(Error))
@@ -91,40 +90,49 @@ class StdOutListener(StreamListener):
             except Exception as Error:
                 print("URL Error: " + str(Error))
 
+            try:
+                language = tweet['lang']
+                print("Language = " + str(language))
+            except Exception as Error:
+                print("Language Error: " + str(Error))
+
             print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
+
+            # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
 
             try:
                 save_on_file(self.fetched_tweets_filename, write_time, write_location, write_url, write_text,
-                             write_fulltext, tweet)
+                             write_fulltext, tweet, language)
             except Exception as Error:
-                print("Save on file Error= "+ str(Error))
-
-            try:
-                full_text = ""
-                text = ""
-                url = ""
-                time = ""
-                screen_name = ""
-                location = ""
-                user = ""
-            except Exception as Error:
-                print("Data Clearing Problem = " + str(Error))
-
-
-            return True
-
+                print("Save on file Error = "+ str(Error))
         except BaseException as e:
             print("Error on_data is = " + str(e))
+
+
+            # -+-+-+-+-+-function that clears data for the next tweet-+-+-+-+-+-
+        try:
+            full_text = ""
+            text = ""
+            url = ""
+            time = ""
+            screen_name = ""
+            location = ""
+            user = ""
+            language = ""
+        except Exception as Error:
+            print("Data Clearing Problem = " + str(Error))
+
         return True
 
+
     def on_error(self, status):
-        print("On Error status is" + str(status))
+        print("On Error status is " + str(status))
 
 if __name__ == '__main__':
 
     # Authenticate using config.py and connect to Twitter Streaming API.
     tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra"]
-    fetched_tweets_filename = "1.txt"
+    fetched_tweets_filename = "tweet.txt"
 
     twitter_streamer = TwitterStreamer()
     twitter_streamer.stream_tweets(fetched_tweets_filename, tracking_List)
