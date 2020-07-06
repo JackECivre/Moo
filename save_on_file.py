@@ -36,15 +36,17 @@ def save_on_file(fetched_tweets_filename, write_time, write_location, write_url,
                 except Exception as Error:
                     tf.write("Full Text error = \n" + str(Error) + "\n\n")
 
+                tf.write(
+                    "-------------------------------------END OF Summary---------------------------------------\n\n")
+                tf.write("--------------------------------------Tweet Data----------------------------------------\n\n")
+                tf.write(str(tweet) + "\n\n")
+                tf.write(
+                    "-------------------------------------END OF TWEET---------------------------------------\n\n\n")
                 return True
 
             except Exception as Error:
                 tf.write(str(Error))
                 tf.write("Tweet error detected. \n" + tweet + "\n")
 
-            tf.write("-------------------------------------END OF Summary---------------------------------------\n\n")
-            tf.write("--------------------------------------Tweet Data----------------------------------------\n\n")
-            tf.write(str(tweet) + "\n\n")
-            tf.write("-------------------------------------END OF TWEET---------------------------------------\n\n\n")
-        print("Data Saved to File")
+        print("\nData Saved to File\n")
         return True

@@ -40,9 +40,9 @@ class StdOutListener(StreamListener):
 
         try:
             tweet = json.loads(data)
-            print("-----     Tweet     -----")
-            print()
-
+            print("\n-----     Tweet     -----")
+            print(tweet)
+            print("\n-----     Tweet Summary    -----")
             try:
                 time = tweet['created_at']
                 write_time = "Time = " + str(time)
@@ -72,41 +72,56 @@ class StdOutListener(StreamListener):
 
             try:
                 rt_data = tweet['retweeted_status']
-                ext_text = rt_data['extended_tweet']
-                full_text = ext_text['full_text']
-                write_fulltext = "Full Text = " + str(full_text) + "\n"
-                print(write_fulltext)
             except Exception as Error:
-                print("Extended Text Error: " + str(Error))
+                print("Re-tweet Error: " + str(Error))
+                rt_data = tweet
 
-            try:
-                rt_data = tweet['retweeted_status']
-                entities = rt_data['entities']
-                url_data = entities['urls']
-                url_list = url_data[0]
-                url = url_list['url']
-                write_url = "URL = " + str(url)
-                print(write_url)
-            except Exception as Error:
-                print("URL Error: " + str(Error))
+            if rt_data is not None:
+                try:
+                    ext_text = rt_data['extended_tweet']
+                    full_text = ext_text['full_text']
+                    write_fulltext = "Full Text = " + str(full_text) + "\n"
+                    print(write_fulltext)
+                except Exception as Error:
+                    print("Extended Text Error: " + str(Error))
+                    full_text = "Not Available"
+
+                try:
+                    entities = rt_data['entities']
+                    url_data = entities['urls']
+                    url_list = url_data[0]
+                    url = url_list['url']
+                    write_url = "URL = " + str(url)
+                    print(write_url)
+                except Exception as Error:
+                    print("URL Error: " + str(Error))
+                    entities = rt_data['entities']
+                    url_data = entities['urls']
+                    url = url_data['url']
+                    write_url = "URL = " + str(url)
+                    print(write_url)
+
+            else:
+                write_url = "URL Not Available"
+
 
             try:
                 language = tweet['lang']
-                print("Language = " + str(language))
             except Exception as Error:
                 print("Language Error: " + str(Error))
 
             print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
 
-            # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
-
-            try:
-                save_on_file(self.fetched_tweets_filename, write_time, write_location, write_url, write_text,
-                             write_fulltext, tweet, language)
-            except Exception as Error:
-                print("Save on file Error = "+ str(Error))
         except BaseException as e:
             print("Error on_data is = " + str(e))
+
+            # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
+
+        try:
+            save_on_file(self.fetched_tweets_filename, write_time, write_location, write_url, write_text,
+                         write_fulltext, tweet, language)
+        except Exception as Error:
+            print("Save on file Error = "+ str(Error))
 
 
             # -+-+-+-+-+-function that clears data for the next tweet-+-+-+-+-+-
@@ -123,7 +138,6 @@ class StdOutListener(StreamListener):
             print("Data Clearing Problem = " + str(Error))
 
         return True
-
 
     def on_error(self, status):
         print("On Error status is " + str(status))
