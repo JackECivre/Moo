@@ -31,6 +31,7 @@ def save_on_file(fetched_tweets_filename, write_time, write_location, write_url,
                 except Exception as Error:
                     tf.write("Text error = \n" + str(Error) + "\n")
 
+
                 try:
                     tf.write(write_fulltext + "\n")
                 except Exception as Error:

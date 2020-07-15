@@ -4,6 +4,7 @@ from tweepy import Stream
 import json
 import twitter_credentials
 from save_on_file import save_on_file
+from text_in_fulltext import textchecker
 
 # # # # TWITTER STREAMER # # # #
 class TwitterStreamer:
@@ -72,11 +73,7 @@ class StdOutListener(StreamListener):
 
             try:
                 rt_data = tweet['retweeted_status']
-            except Exception as Error:
-                print("Re-tweet Error: " + str(Error))
-                rt_data = tweet
 
-            if rt_data is not None:
                 try:
                     ext_text = rt_data['extended_tweet']
                     full_text = ext_text['full_text']
@@ -84,26 +81,35 @@ class StdOutListener(StreamListener):
                     print(write_fulltext)
                 except Exception as Error:
                     print("Extended Text Error: " + str(Error))
-                    full_text = "Not Available"
 
                 try:
-                    entities = rt_data['entities']
-                    url_data = entities['urls']
-                    url_list = url_data[0]
-                    url = url_list['url']
-                    write_url = "URL = " + str(url)
-                    print(write_url)
+                    try:
+                        entities = rt_data['entities']
+                        url_data = entities['urls']
+                        url_list = url_data[0]
+                        url = url_list['url']
+                        write_url = "URL = " + str(url)
+                        print(write_url)
+                    except:
+                        entities = rt_data['entities']
+                        url_data = entities['urls']
+                        url = url_data['url']
+                        write_url = "URL = " + str(url)
+                        print(write_url)
                 except Exception as Error:
                     print("URL Error: " + str(Error))
-                    entities = rt_data['entities']
-                    url_data = entities['urls']
-                    url = url_data['url']
-                    write_url = "URL = " + str(url)
-                    print(write_url)
+                    url = "Not Available"
 
-            else:
-                write_url = "URL Not Available"
+                try:
+                    textchecker(full_text, text)
+                except Exception as Error:
+                    print("Full Text Check Error is : " + str(Error))
+                    full_text = "Not Available"
 
+            except Exception as Error:
+                print("Re-tweet Error: " + str(Error))
+                write_fulltext = "Full Text = Not Available"
+                write_url = "URL = Not  Available"
 
             try:
                 language = tweet['lang']
@@ -116,6 +122,7 @@ class StdOutListener(StreamListener):
             print("Error on_data is = " + str(e))
 
             # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
+
 
         try:
             save_on_file(self.fetched_tweets_filename, write_time, write_location, write_url, write_text,
@@ -145,7 +152,7 @@ class StdOutListener(StreamListener):
 if __name__ == '__main__':
 
     # Authenticate using config.py and connect to Twitter Streaming API.
-    tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra"]
+    tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra", "haham"]
     fetched_tweets_filename = "tweet.txt"
 
     twitter_streamer = TwitterStreamer()
