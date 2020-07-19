@@ -1,6 +1,7 @@
 
 
 def textchecker(full_text, text):
+
     fulltext_list= full_text.split()
     # print("Full Text List is : " + str(fulltext_list))
     text_list = text.split()

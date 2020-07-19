@@ -1,36 +1,37 @@
 
 
-def save_on_text_file(filename_text, now_time, write_time, write_location, write_url, write_text,
-                      write_fulltext, tweet):
+def save_on_text_file(filename_text, tweet_desired_data, now_time, tweet):
 
-    with open(filename_text, 'a', encoding="utf-8") as tf:
+    with open(filename_text, 'a', encoding="utf-16") as tf:
         tf.write("\n--------------------------------------- TWEET -----------------------------------------\n")
         tf.write("Tweet registered on file at " + str(now_time) + "\n")
         try:
             try:
-                tf.write(write_time + "\n")
+                tf.write(tweet_desired_data["write_time"] + "\n")
             except Exception as Error:
                 tf.write("Time error = \n" + str(Error) + "\n")
 
             try:
-                tf.write(write_location + "\n")
+                tf.write(tweet_desired_data["write_location"] + "\n")
             except Exception as Error:
                 tf.write("Location error = \n" + str(Error) + "\n")
 
             try:
-                tf.write(write_url + "\n")
+                tf.write(tweet_desired_data["write_url"] + "\n")
             except Exception as Error:
-                tf.write("URL error = \n" + str(Error) + "\n")
+                print("URL error = \n" + str(Error) + "\n")
+                tf.write("URL is not Available" + "\n")
 
             try:
-                tf.write(write_text + "\n\n")
+                tf.write(tweet_desired_data["write_text"] + "\n\n")
             except Exception as Error:
                 tf.write("Text error = \n" + str(Error) + "\n")
 
             try:
-                tf.write(write_fulltext + "\n")
+                tf.write(tweet_desired_data["write_fulltext"] + "\n")
             except Exception as Error:
-                tf.write("Full Text error = \n" + str(Error) + "\n\n")
+                print("Full Text Error = \n" + str(Error) + "\n")
+                tf.write("Full Text is not Available" + "\n")
 
             tf.write(
                 "-------------------------------------END OF Summary---------------------------------------\n\n")

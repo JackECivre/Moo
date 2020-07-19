@@ -2,8 +2,8 @@ import xlsxwriter
 from save_on_excel_line import save_line
 
 
-def save_on_excel_file(filename_excel, now_time, full_text, time, location, url, text, screen_name, line_no):
-    print("line_no_a: " + str(line_no))
+def save_on_excel_file(filename_excel):
+
     with open(filename_excel, 'a', encoding="utf-8") as ef:
         ef.workbook = xlsxwriter.Workbook(filename_excel)
         worksheet = ef.workbook.add_worksheet()
@@ -19,16 +19,6 @@ def save_on_excel_file(filename_excel, now_time, full_text, time, location, url,
         worksheet.write('E1', 'Tweet Text', bold_format)
         worksheet.write('F1', 'Tweet Full Text', bold_format)
         worksheet.write('G1', 'URL', bold_format)
-
-        username = "@" + str(screen_name)
-
-        col = 0
-
-        try:
-            save_line(line_no, col, worksheet, now_time, time, username, location, text, full_text, url)
-            print("Row Number is:" + str(line_no))
-        except Exception as Error:
-            print("Save Line Error is : " + str(Error))
 
         ef.workbook.close()
 
