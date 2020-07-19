@@ -84,16 +84,18 @@ class StdOutListener(StreamListener):
                 line_no = 1
                 print("line_no_d: " + str(line_no))
 
+                # try:
+                #     save_line(line_no, worksheet, tweet_desired_data, now_time)
+                #     print("Row Number is:" + str(line_no))
+                # except Exception as Error:
+                #     print("Save Line Error is : " + str(Error))
+
                 line_no += 1
                 print("line_no_e: " + str(line_no))
             except Exception as Error:
                 print("Save on Excel file Error = " + str(Error))
 
-            # try:
-            #     save_line(line_no, col, worksheet, now_time, time, username, location, text, full_text, url)
-            #     print("Row Number is:" + str(line_no))
-            # except Exception as Error:
-            #     print("Save Line Error is : " + str(Error))
+
 
             # -+-+-+-+-+-function that clears data for the next tweet-+-+-+-+-+-
         try:

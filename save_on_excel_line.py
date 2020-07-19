@@ -1,15 +1,14 @@
 
 
-def save_line(line_no, col, worksheet, now_time, time, screen_name, location, text, full_text, url):
+def save_line(line_no, col, worksheet, tweet_desired_data, now_time):
     print("line_no_b: " + str(line_no))
 
     row = line_no
     col = 0
 
-    username = "@" + str(screen_name)
-
     tweet = (
-        [now_time, time, username, location, text, full_text, url],)
+        [now_time, tweet_desired_data["time"], tweet_desired_data["username"], tweet_desired_data["location"],
+         tweet_desired_data["text"], tweet_desired_data["full_text"], tweet_desired_data["url"]],)
 
     try:
         for now_time, time, username, location, text, full_text, url in tweet:
