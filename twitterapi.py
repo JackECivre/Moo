@@ -3,25 +3,35 @@ from tweepy import OAuthHandler
 from tweepy import Stream
 import json
 import twitter_credentials
-from save_on_file import save_on_file
+import datetime
+from save_on_text_file import save_on_text_file
+from save_on_excel_file import save_on_excel_file
 from text_in_fulltext import textchecker
 
+
 # # # # TWITTER STREAMER # # # #
+
+
 class TwitterStreamer:
     """
     Class for streaming and processing live tweets.
     """
+
+    print("Script Starting")
 
     def __init__(self):
         pass
 
     def stream_tweets(self, fetched_tweets_file, hash_tag_list):
         # This handles Twitter authetification and the connection to Twitter Streaming API
+        print("Authentication in Progress")
 
         listener = StdOutListener(fetched_tweets_file)
         auth = OAuthHandler(twitter_credentials.CONSUMER_KEY, twitter_credentials.CONSUMER_SECRET)
         auth.set_access_token(twitter_credentials.ACCESS_TOKEN, twitter_credentials.ACCESS_TOKEN_SECRET)
         stream = Stream(auth, listener)
+
+        print("Authentication Completed - Fetching Tweets")
 
         # This line filter Twitter Streams to capture data by the keywords:
         stream.filter(track=hash_tag_list)
@@ -34,10 +44,11 @@ class StdOutListener(StreamListener):
         super().__init__()
         self.fetched_tweets_filename = fetched_tweets_file
 
+
     def on_data(self, data):
 
-        global write_time, write_location, write_url, write_text, write_fulltext,\
-            full_text, time, location , url , text, screen_name, user, language
+        global write_time, write_location, write_url, write_text, write_fulltext, \
+            full_text, time, location, url, text, screen_name, user, language
 
         try:
             tweet = json.loads(data)
@@ -96,6 +107,7 @@ class StdOutListener(StreamListener):
                         url = url_data['url']
                         write_url = "URL = " + str(url)
                         print(write_url)
+
                 except Exception as Error:
                     print("URL Error: " + str(Error))
                     url = "Not Available"
@@ -108,6 +120,8 @@ class StdOutListener(StreamListener):
 
             except Exception as Error:
                 print("Re-tweet Error: " + str(Error))
+                full_text = None
+                url = None
                 write_fulltext = "Full Text = Not Available"
                 write_url = "URL = Not  Available"
 
@@ -122,13 +136,31 @@ class StdOutListener(StreamListener):
             print("Error on_data is = " + str(e))
 
             # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
+        now_time = str(datetime.datetime.now())
 
 
-        try:
-            save_on_file(self.fetched_tweets_filename, write_time, write_location, write_url, write_text,
-                         write_fulltext, tweet, language)
-        except Exception as Error:
-            print("Save on file Error = "+ str(Error))
+        if language == "in":
+            print("Data Not Saved to file. \nLanguage is = " + str(language))
+        else:
+            try:
+                filename_text = self.fetched_tweets_filename + ".txt"
+                save_on_text_file(filename_text, now_time, write_time, write_location, write_url,
+                                  write_text, write_fulltext, tweet)
+            except Exception as Error:
+                print("Save on Text file Error = " + str(Error))
+
+            try:
+                line_no = 1
+                print("line_no_d: " + str(line_no))
+
+                filename_excel = self.fetched_tweets_filename + ".xlsx"
+                save_on_excel_file(filename_excel, now_time, full_text, time, location, url, text,
+                                   screen_name, line_no)
+                line_no += 1
+                print("line_no_e: " + str(line_no))
+            except Exception as Error:
+                print("Save on Excel file Error = " + str(Error))
+
 
 
             # -+-+-+-+-+-function that clears data for the next tweet-+-+-+-+-+-
@@ -149,11 +181,12 @@ class StdOutListener(StreamListener):
     def on_error(self, status):
         print("On Error status is " + str(status))
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     # Authenticate using config.py and connect to Twitter Streaming API.
     tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra", "haham"]
-    fetched_tweets_filename = "tweet.txt"
+    fetched_tweets_filename = "tweet"
 
     twitter_streamer = TwitterStreamer()
     twitter_streamer.stream_tweets(fetched_tweets_filename, tracking_List)
+

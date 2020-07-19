@@ -14,9 +14,4 @@ def textchecker(full_text, text):
         # print(full_text)
         print("Full text is not same with text")
 
-
-a = """RT @ecapa_aklinizi: "Din adamları Arap, denizciler Rumdu. Ticaret Ermeni ve Rumların, maliye Musevi ve Ermenilerin elindeydi. Üst yönetici…"""
-
-b = """Din adamları Arap, denizciler Rumdu. Ticaret Ermeni ve Rumların, maliye Musevi ve Ermenilerin elindeydi. Üst yönetici sınıfta Türk yoktu. Köprülüler Arnavut, Karlofça Antlaşmasını yapan Rum Mavrocordato'ydu. Hükümdarın danışmanlarının çoğu yabancıydı." Türklerin Tarihi - JP Roux"""
-
-textchecker(b,a)
+    return True
