@@ -4,9 +4,9 @@ from tweepy import Stream
 import twitter_credentials
 import datetime
 from save_on_text_file import save_on_text_file
-from save_on_excel_file import save_on_excel_file
+from create_excel_file import create_excel_file
 from clear_tweet_data import clear_tweet
-from save_on_excel_line import save_line
+# from save_on_excel_line import save_line
 from tweet_data import tweet_data
 import json
 
@@ -37,7 +37,9 @@ class TwitterStreamer:
         print("Authentication Completed - Fetching Tweets")
 
         # This line filter Twitter Streams to capture data by the keywords:
+
         stream.filter(track=hash_tag_list)
+
 
 
 # # # # TWITTER STREAM LISTENER # # # #
@@ -46,6 +48,7 @@ class StdOutListener(StreamListener):
     def __init__(self, fetched_tweets_file):
         super().__init__()
         self.fetched_tweets_filename = fetched_tweets_file
+
 
     def on_data(self, data):
 
@@ -59,12 +62,8 @@ class StdOutListener(StreamListener):
         except Exception as Error:
             print("Tweet Data error: " + str(Error))
 
-        # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
-        now_time = str(datetime.datetime.now())
 
-        # -+-+-+-+-+-function that creates and saves the EMPTY Excel file-+-+-+-+-+-
-        filename_excel = self.fetched_tweets_filename + ".xlsx"
-        save_on_excel_file(filename_excel)
+        now_time = str(datetime.datetime.now())
 
         # -+-+-+-+-+-function that saves the Tweet Data if language is not Endonesian or Portugesse-+-+-+-+-+-
         language = tweet_desired_data['language']
@@ -74,24 +73,25 @@ class StdOutListener(StreamListener):
         elif str(language) == "pt":
             print("Data Not Saved to file. \nLanguage is = " + str(language))
         else:
+
+            # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
             try:
                 filename_text = self.fetched_tweets_filename + ".txt"
                 save_on_text_file(filename_text, tweet_desired_data, now_time, tweet)
+                print("Tweet saved on Text file = Success")
             except Exception as Error:
                 print("Save on Text file Error = " + str(Error))
 
+            # -+-+-+-+-+-function that saves the desired data into a excel file-+-+-+-+-+-
             try:
-                line_no = 1
-                print("line_no_d: " + str(line_no))
+                print("trying to save tweet in Excel")
+                try:
+                    filename_excel = self.fetched_tweets_filename + ".xlsx"
+                    create_excel_file(filename_excel, tweet_desired_data, now_time)
+                    # save_line(worksheet, tweet_desired_data, now_time)
+                except Exception as Error:
+                    print("Save Line Error is : " + str(Error))
 
-                # try:
-                #     save_line(line_no, worksheet, tweet_desired_data, now_time)
-                #     print("Row Number is:" + str(line_no))
-                # except Exception as Error:
-                #     print("Save Line Error is : " + str(Error))
-
-                line_no += 1
-                print("line_no_e: " + str(line_no))
             except Exception as Error:
                 print("Save on Excel file Error = " + str(Error))
 

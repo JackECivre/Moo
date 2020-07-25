@@ -109,6 +109,10 @@ def tweet_data(tweet):
 
         except Exception as Error:
             print("Re-tweet Error: " + str(Error))
+            results["url"] = "Url Not Available"
+            results["write_url"] = "Url Not Available"
+            results["full_text"] = "Full Text Not Available"
+            results["write_fulltext"] = "Full Text Not Available"
 
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
 
