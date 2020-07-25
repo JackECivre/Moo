@@ -114,6 +114,23 @@ def tweet_data(tweet):
             results["full_text"] = "Full Text Not Available"
             results["write_fulltext"] = "Full Text Not Available"
 
+        if results["url"] == "Url Not Available":
+            try:
+                print("Trying to extract URL from text")
+                if str(text[-23]) == "h" and str(text[-22]) == "t" and str(text[-21]) == "t" and str(text[-20]) == "p":
+                    url_from_text = str(text[-23:])
+                    results["url"] = str(url_from_text)
+                    results["write_url"] = "URL = " + str(url_from_text)
+                    print("Url Extracted from Text is: " + str(url_from_text))
+                else:
+                    print("Url Extraction from Text not Possible")
+                    pass
+            except Exception as Error:
+                print("Extracting URL form Text failed :" + str(Error))
+        else:
+            pass
+
+
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
 
         # print("Printing Results" + str(results))
