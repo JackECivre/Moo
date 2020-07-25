@@ -25,7 +25,6 @@ class TwitterStreamer:
         pass
 
     def stream_tweets(self, fetched_tweets_file, hash_tag_list):
-
         # This handles Twitter authetification and the connection to Twitter Streaming API
         print("Authentication in Progress")
 
@@ -41,14 +40,12 @@ class TwitterStreamer:
         stream.filter(track=hash_tag_list)
 
 
-
 # # # # TWITTER STREAM LISTENER # # # #
 class StdOutListener(StreamListener):
 
     def __init__(self, fetched_tweets_file):
         super().__init__()
         self.fetched_tweets_filename = fetched_tweets_file
-
 
     def on_data(self, data):
 
@@ -62,15 +59,16 @@ class StdOutListener(StreamListener):
         except Exception as Error:
             print("Tweet Data error: " + str(Error))
 
-
         now_time = str(datetime.datetime.now())
 
-        # -+-+-+-+-+-function that saves the Tweet Data if language is not Endonesian or Portugesse-+-+-+-+-+-
+        # -+-+-+-+-+-function that saves the Tweet Data if language is desired-+-+-+-+-+-
         language = tweet_desired_data['language']
 
         if str(language) == "in":
             print("Data Not Saved to file. \nLanguage is = " + str(language))
         elif str(language) == "pt":
+            print("Data Not Saved to file. \nLanguage is = " + str(language))
+        elif str(language) == "hi":
             print("Data Not Saved to file. \nLanguage is = " + str(language))
         else:
 
@@ -84,18 +82,16 @@ class StdOutListener(StreamListener):
 
             # -+-+-+-+-+-function that saves the desired data into a excel file-+-+-+-+-+-
             try:
-                print("trying to save tweet in Excel")
+
                 try:
-                    filename_excel = self.fetched_tweets_filename + ".xlsx"
+                    filename_excel = self.fetched_tweets_filename + ".csv"
                     create_excel_file(filename_excel, tweet_desired_data, now_time)
-                    # save_line(worksheet, tweet_desired_data, now_time)
+
                 except Exception as Error:
-                    print("Save Line Error is : " + str(Error))
+                    print("Save excel Error is : " + str(Error))
 
             except Exception as Error:
                 print("Save on Excel file Error = " + str(Error))
-
-
 
             # -+-+-+-+-+-function that clears data for the next tweet-+-+-+-+-+-
         try:
