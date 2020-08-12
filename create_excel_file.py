@@ -16,6 +16,8 @@ def create_excel_file(filename_excel, tweet_desired_data, now_time):
 
             writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=fieldnames)
             writer.writeheader()
+
+
             writer.writerow({'Data Collection Time': now_time,
                              'Tweet Time': time,
                              'Tweet User Name': username,

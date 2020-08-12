@@ -6,7 +6,6 @@ import datetime
 from save_on_text_file import save_on_text_file
 from create_excel_file import create_excel_file
 from clear_tweet_data import clear_tweet
-# from save_on_excel_line import save_line
 from tweet_data import tweet_data
 import json
 
@@ -25,7 +24,7 @@ class TwitterStreamer:
         pass
 
     def stream_tweets(self, fetched_tweets_file, hash_tag_list):
-        # This handles Twitter authetification and the connection to Twitter Streaming API
+        # This handles Twitter auth and the connection to Twitter Streaming API
         print("Authentication in Progress")
 
         listener = StdOutListener(fetched_tweets_file)
@@ -95,8 +94,7 @@ class StdOutListener(StreamListener):
 
             # -+-+-+-+-+-function that clears data for the next tweet-+-+-+-+-+-
         try:
-            tweet_desired_data = clear_tweet(tweet_desired_data)
-            # print("CLEARED tweet_desired_data is " + str(tweet_desired_data))
+            clear_tweet(tweet_desired_data)
         except Exception as Error:
             print("Clear Tweet Error " + str(Error))
 
@@ -107,7 +105,7 @@ class StdOutListener(StreamListener):
 if __name__ == '__main__':
     # Authenticate using config.py and connect to Twitter Streaming API.
     tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra", "haham"]
-    fetched_tweets_filename = "tweet"
+    fetched_tweets_filename = str(datetime.date.today())
 
     twitter_streamer = TwitterStreamer()
     twitter_streamer.stream_tweets(fetched_tweets_filename, tracking_List)
