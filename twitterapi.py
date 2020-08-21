@@ -63,12 +63,22 @@ class StdOutListener(StreamListener):
         # -+-+-+-+-+-function that saves the Tweet Data if language is desired-+-+-+-+-+-
         language = tweet_desired_data['language']
 
-        if str(language) == "in":
+        if str(language) != "tr":
             print("Data Not Saved to file. \nLanguage is = " + str(language))
-        elif str(language) == "pt":
-            print("Data Not Saved to file. \nLanguage is = " + str(language))
-        elif str(language) == "hi":
-            print("Data Not Saved to file. \nLanguage is = " + str(language))
+        # elif str(language) == "pt":
+        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
+        # elif str(language) == "hi":
+        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
+        # elif str(language) == "en":
+        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
+        # elif str(language) == "it":
+        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
+        # elif str(language) == "und":
+        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
+        # elif str(language) == "tl":
+        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
+        # elif str(language) == "nl":
+        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
         else:
 
             # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
