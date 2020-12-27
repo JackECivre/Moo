@@ -102,7 +102,7 @@ class StdOutListener(StreamListener):
 
 if __name__ == '__main__':
     # Authenticate using config.py and connect to Twitter Streaming API.
-    tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra", "haham"]
+    tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra", "haham", "hahamlar"]
     fetched_tweets_filename = str("results")
 
     twitter_streamer = TwitterStreamer()
