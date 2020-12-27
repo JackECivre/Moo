@@ -65,22 +65,7 @@ class StdOutListener(StreamListener):
 
         if str(language) != "tr":
             print("Data Not Saved to file. \nLanguage is = " + str(language))
-        # elif str(language) == "pt":
-        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
-        # elif str(language) == "hi":
-        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
-        # elif str(language) == "en":
-        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
-        # elif str(language) == "it":
-        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
-        # elif str(language) == "und":
-        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
-        # elif str(language) == "tl":
-        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
-        # elif str(language) == "nl":
-        #     print("Data Not Saved to file. \nLanguage is = " + str(language))
         else:
-
             # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
             try:
                 filename_text = self.fetched_tweets_filename + ".txt"
@@ -110,6 +95,9 @@ class StdOutListener(StreamListener):
 
     def on_error(self, status):
         print("On Error status is " + str(status))
+        if status == 420:
+            # returning False in on_error disconnects the stream
+            return False
 
 
 if __name__ == '__main__':
