@@ -100,25 +100,26 @@ class StdOutListener(StreamListener):
             # returning False in on_error disconnects the stream
             return False
 
+
 def handle_exception():
     print("Something Crushed MOO !!!")
     pass
+
 
 def moo():
     try:
         if __name__ == '__main__':
             # Authenticate using config.py and connect to Twitter Streaming API.
-            tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra", "haham", "hahamlar"]
+            tracking_list = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra", "haham", "hahamlar"]
             fetched_tweets_filename = str("results")
 
             twitter_streamer = TwitterStreamer()
-            twitter_streamer.stream_tweets(fetched_tweets_filename, tracking_List)
+            twitter_streamer.stream_tweets(fetched_tweets_filename, tracking_list)
     except Exception as Error:
-        print("App Error re-trying " + Error)
+        print("App Error re-trying " + str(Error))
         time.sleep(10)
         moo()
         handle_exception()
 
 
 moo()
-
