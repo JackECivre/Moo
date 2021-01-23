@@ -3,11 +3,12 @@ from tweepy import OAuthHandler
 from tweepy import Stream
 import twitter_credentials
 import datetime
-from save_on_text_file import save_on_text_file
+# from save_on_text_file import save_on_text_file
 from create_excel_file import create_excel_file
 from clear_tweet_data import clear_tweet
 from tweet_data import tweet_data
 import json
+import time
 
 
 # # # # TWITTER STREAMER # # # #
@@ -51,8 +52,8 @@ class StdOutListener(StreamListener):
         # -+-+-+-+-+-Function that Gathers the desired data from Tweet Data-+-+-+-+-+-
         tweet_desired_data = {}
         try:
-            tweet = json.loads(data)
-            tweet_desired_data = tweet_data(tweet)
+            tweet_json = json.loads(data)
+            tweet_desired_data = tweet_data(tweet_json)
             # print("tweet_desired_Data is :" + str(tweet_desired_data))
 
         except Exception as Error:
@@ -66,13 +67,13 @@ class StdOutListener(StreamListener):
         if str(language) != "tr":
             print("Data Not Saved to file. \nLanguage is = " + str(language))
         else:
-            # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
-            try:
-                filename_text = self.fetched_tweets_filename + ".txt"
-                save_on_text_file(filename_text, tweet_desired_data, now_time, tweet)
-                print("Tweet saved on Text file = Success")
-            except Exception as Error:
-                print("Save on Text file Error = " + str(Error))
+            # # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
+            # try:
+            #     filename_text = self.fetched_tweets_filename + ".txt"
+            #     save_on_text_file(filename_text, tweet_desired_data, now_time, tweet_json)
+            #     print("Tweet saved on Text file = Success")
+            # except Exception as Error:
+            #     print("Save on Text file Error = " + str(Error))
 
             # -+-+-+-+-+-function that saves the desired data into a excel file-+-+-+-+-+-
             try:
@@ -100,10 +101,25 @@ class StdOutListener(StreamListener):
             return False
 
 
-if __name__ == '__main__':
-    # Authenticate using config.py and connect to Twitter Streaming API.
-    tracking_List = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra", "haham"]
-    fetched_tweets_filename = str("results")
+def handle_exception():
+    print("Something Crushed MOO !!!")
+    pass
 
-    twitter_streamer = TwitterStreamer()
-    twitter_streamer.stream_tweets(fetched_tweets_filename, tracking_List)
+
+def moo():
+    try:
+        if __name__ == '__main__':
+            # Authenticate using config.py and connect to Twitter Streaming API.
+            tracking_list = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "havra", "haham", "hahamlar"]
+            fetched_tweets_filename = str("results")
+
+            twitter_streamer = TwitterStreamer()
+            twitter_streamer.stream_tweets(fetched_tweets_filename, tracking_list)
+    except Exception as Error:
+        print("App Error re-trying " + str(Error))
+        time.sleep(10)
+        moo()
+        handle_exception()
+
+
+moo()

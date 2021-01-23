@@ -1,3 +1,6 @@
 
 twitter_credentials.py
 collected_data
+results.csv
+results.txt
+venv/*
