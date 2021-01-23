@@ -1,16 +1,16 @@
 from text_in_fulltext import textchecker
 
 
-def tweet_data(tweet):
+def tweet_data(tweet_json):
     results = {}
     try:
 
         print("\n-----     Tweet     -----")
-        print(tweet)
+        print(tweet_json)
         print("\n-----     Tweet Summary    -----")
 
         try:
-            language = tweet['lang']
+            language = tweet_json['lang']
             print("language is :" + str(language))
             results["language"] = str(language)
         except Exception as Error:
@@ -18,7 +18,7 @@ def tweet_data(tweet):
             results["language"] = "Language is Not Available"
 
         try:
-            time = tweet['created_at']
+            time = tweet_json['created_at']
             write_time = "Time = " + str(time)
             print(write_time)
             results["time"] = str(time)
@@ -29,7 +29,7 @@ def tweet_data(tweet):
             results["write_time"] = "Time is Not Available"
 
         try:
-            user_data = tweet['user']
+            user_data = tweet_json['user']
             user = user_data['name']
             screen_name = user_data['screen_name']
             location = user_data['location']
@@ -48,7 +48,7 @@ def tweet_data(tweet):
             results["write_location"] = "Location Not Available"
 
         try:
-            text = tweet['text']
+            text = tweet_json['text']
             print("------------------------")
             write_text = "Text = " + str(text)
             print(write_text)
@@ -62,7 +62,7 @@ def tweet_data(tweet):
             results["write_text"] = "Text Not Available"
 
         try:
-            rt_data = tweet['retweeted_status']
+            rt_data = tweet_json['retweeted_status']
 
             try:
                 ext_text = rt_data['extended_tweet']
@@ -129,7 +129,6 @@ def tweet_data(tweet):
                 print("Extracting URL form Text failed :" + str(Error))
         else:
             pass
-
 
         print("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-")
 
