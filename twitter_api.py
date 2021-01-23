@@ -77,13 +77,8 @@ class StdOutListener(StreamListener):
 
             # -+-+-+-+-+-function that saves the desired data into a excel file-+-+-+-+-+-
             try:
-
-                try:
-                    filename_excel = self.fetched_tweets_filename + ".csv"
-                    create_excel_file(filename_excel, tweet_desired_data, now_time)
-
-                except Exception as Error:
-                    print("Save excel Error is : " + str(Error))
+                filename_excel = self.fetched_tweets_filename + ".csv"
+                create_excel_file(filename_excel, tweet_desired_data, now_time)
 
             except Exception as Error:
                 print("Save on Excel file Error = " + str(Error))

@@ -1,9 +1,13 @@
 import csv
+import os.path
 
 
 def create_excel_file(filename_excel, tweet_desired_data, now_time):
+
     try:
-        with open(filename_excel, 'a', newline='', encoding="utf-16") as csvfile:
+        file_exists = os.path.isfile(filename_excel)
+
+        with open(filename_excel, 'a', newline='', encoding="utf-16") as csv_file:
             fieldnames = ['Data Collection Time', 'Tweet Time', 'Tweet User Name', 'Tweet Location', 'Tweet Text',
                           'Tweet Full Text', 'URL', 'Language']
 
@@ -16,8 +20,11 @@ def create_excel_file(filename_excel, tweet_desired_data, now_time):
             language = tweet_desired_data["language"]
             # print(language)
 
-            writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=fieldnames)
-            writer.writeheader()
+            writer = csv.DictWriter(csv_file, delimiter=",", fieldnames=fieldnames)
+
+            if not file_exists:
+                writer.writeheader()
+
             writer.writerow({'Data Collection Time': now_time,
                              'Tweet Time': time,
                              'Tweet User Name': username,
