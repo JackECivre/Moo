@@ -107,7 +107,8 @@ def moo():
             # Authenticate using config.py and connect to Twitter Streaming API.
             tracking_list = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "sinagoglar", "havra", "haham",
                              "hahamlar", "gaz odası", "gaz odaları", "holokost"]
-            fetched_tweets_filename = str("results")
+            fetched_tweets_filename = str(datetime.date.today())
+            print(fetched_tweets_filename)
 
             twitter_streamer = TwitterStreamer()
             twitter_streamer.stream_tweets(fetched_tweets_filename, tracking_list)
