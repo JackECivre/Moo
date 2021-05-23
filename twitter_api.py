@@ -67,15 +67,6 @@ class StdOutListener(StreamListener):
         if str(language) != "tr":
             print("Data Not Saved to file. \nLanguage is = " + str(language))
         else:
-            # # -+-+-+-+-+-function that saves the desired data into a text file-+-+-+-+-+-
-            # try:
-            #     filename_text = self.fetched_tweets_filename + ".txt"
-            #     save_on_text_file(filename_text, tweet_desired_data, now_time, tweet_json)
-            #     print("Tweet saved on Text file = Success")
-            # except Exception as Error:
-            #     print("Save on Text file Error = " + str(Error))
-
-            # -+-+-+-+-+-function that saves the desired data into a excel file-+-+-+-+-+-
             try:
                 filename_excel = self.fetched_tweets_filename + ".csv"
                 create_excel_file(filename_excel, tweet_desired_data, now_time)
