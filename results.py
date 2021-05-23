@@ -22,15 +22,17 @@ def results():
 
     def get_all_files(file_location):
         try:
+            print("files gathered from " + file_location)
             all_files = glob.glob(os.path.join(file_location, "*.csv"))
             all_df = []
             for f in all_files:
-                df = pd.read_csv(f, sep=',')
-                df['file'] = f.split('/')[-1]
+                df = pd.read_csv(f, sep=',', error_bad_lines=False, delimiter=None, header=1, lineterminator='\n' )
+                df["file"] = f.split(',')[-1]
                 all_df.append(df)
             merged_df = pd.concat(all_df, ignore_index=True, sort=True)
-            print(all_df)
             print(merged_df)
+            merged_df.to_csv("merged.csv")
+            print("MERGED CSV FILE CREATED")
         except Exception as Error:
             print("Merge CSV Error: ")
             print(Error)
