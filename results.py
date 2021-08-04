@@ -33,7 +33,7 @@ def results():
 
     def read_csv(selected_file):
         try:
-            moo_data = pd.read_csv(rf"{selected_file}",error_bad_lines = False, sep=",", lineterminator = '\n')
+            moo_data = pd.read_csv(f"{selected_file}", error_bad_lines=False, sep=",", lineterminator='\n', )
             print(moo_data.head())
         except Exception as Error:
             print("pandas CSV Read Error: ")

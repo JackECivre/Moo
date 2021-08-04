@@ -92,22 +92,24 @@ def handle_exception():
     pass
 
 
-def moo():
+def moo(selected_list):
     try:
         if __name__ == '__main__':
             # Authenticate using config.py and connect to Twitter Streaming API.
-            tracking_list = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "sinagoglar", "havra", "haham",
-                             "hahamlar", "holokost"]
             fetched_tweets_filename = str(datetime.date.today())
             print(fetched_tweets_filename)
 
             twitter_streamer = TwitterStreamer()
-            twitter_streamer.stream_tweets(fetched_tweets_filename, tracking_list)
+            twitter_streamer.stream_tweets(fetched_tweets_filename, selected_list)
     except Exception as Error:
         print("App Error re-trying " + str(Error))
         time.sleep(10)
         moo()
         handle_exception()
 
+antisemitism_list = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "sinagoglar", "havra", "haham",
+                             "hahamlar", "holokost"]
 
-moo()
+israil_list = ["İsrail", "israil", "israyil","İsrail", "Israil", "Israyil"]
+
+moo(israil_list)
