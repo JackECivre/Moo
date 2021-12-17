@@ -112,4 +112,4 @@ antisemitism_list = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "s
 
 israil_list = ["İsrail", "israil", "israyil","İsrail", "Israil", "Israyil"]
 
-moo(israil_list)
+moo(antisemitism_list)
