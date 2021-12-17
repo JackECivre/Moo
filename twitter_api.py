@@ -110,6 +110,6 @@ def moo(selected_list):
 antisemitism_list = ["yahudi", "yahudiler", "musevi", "museviler", "sinagog", "sinagoglar", "havra", "haham",
                              "hahamlar", "holokost"]
 
-israil_list = ["İsrail", "israil", "israyil","İsrail", "Israil", "Israyil"]
+israil_list = ["İsrail", "israil", "israyil","İsrail", "Israil", "Israyil","İsrael", "Israel"]
 
 moo(antisemitism_list)
